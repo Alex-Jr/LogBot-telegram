@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import axios from 'axios';
 import type { Bot } from '../interfaces/Bot';
 import type { Job } from '../interfaces/Jobs';
@@ -36,6 +37,7 @@ function speedtestNotification(bot: Bot) {
 }
 
 export default {
+    name: 'speedtest-notification',
     frequency: "5 */1 * * *",
     execute: speedtestNotification
 } as Job

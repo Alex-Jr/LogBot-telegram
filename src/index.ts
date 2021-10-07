@@ -23,6 +23,7 @@ bot.launch().then(() => {
 
 jobs.forEach((job) => {
     schedule(job.frequency, job.execute(bot))
+    console.log(`${job.name} executed!`)
 });
 
 // Enable graceful stop
