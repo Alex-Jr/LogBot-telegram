@@ -17,7 +17,9 @@ commands.forEach((command) => {
     bot.command(command.data.name, command.execute)
 });
 
-bot.launch();
+bot.launch().then(() => {
+    console.log(`Logged in as ${bot.botInfo?.username}#${bot.botInfo?.id}`)
+});
 
 jobs.forEach((job) => {
     schedule(job.frequency, job.execute(bot))
