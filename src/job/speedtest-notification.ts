@@ -3,6 +3,7 @@ import type { Bot } from '../interfaces/Bot';
 import type { Job } from '../interfaces/Jobs';
 import type { SpeedtestResponse } from '../interfaces/SpeedtestResponse';
 
+// speedtest notification integration with henrywhitaker3/speedtest-tracker
 function speedtestNotification(bot: Bot) {
     return async function () {
         const { latest } = (await axios.get(process.env.SPEEDTEST_BASEURL + "/api/speedtest/home/7")).data as SpeedtestResponse
@@ -25,6 +26,7 @@ function speedtestNotification(bot: Bot) {
             bot.telegram.sendMessage(
                 process.env.OWNER_CHATID!, 
                 ` Ultimo teste\n` + 
+                `🕐 ${Date.now()}` +
                 `⬇️ ${latestDownload} Mb/s\n` +
                 `⬆️ ${latestUploud} Mb/s\n` +
                 `🔁 ${latestPing} ms`

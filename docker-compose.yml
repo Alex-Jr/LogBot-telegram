@@ -1,0 +1,10 @@
+version: "3"
+services:
+  logbot-telegram:
+    container_name: logbot-telegram
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # ports:
+    #   - 9000:9000
+    restart: unless-stopped
