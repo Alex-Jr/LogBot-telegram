@@ -1,41 +1,27 @@
-import 'dotenv/config'
-import { Telegraf, Markup } from 'telegraf'
+import 'dotenv/config';
+import { schedule } from 'node-cron';
+import { Telegraf } from 'telegraf';
+import commands from './commands';
+import jobs from './job';
+import middlewares from './middleware';
 
-const token = process.env.TOKEN!
+const token = process.env.TOKEN!;
 
-const bot = new Telegraf(token)
+export const bot = new Telegraf(token);
 
-bot.use(Telegraf.log())
-
-bot.command('start', (ctx) => 
-    ctx.reply(
-        'Comandos disponíveis', 
-        Markup.keyboard([
-            ["/kiss"]
-        ])
-    )  
+middlewares.forEach((middleware) => 
+    bot.use(middleware)
 )
 
-bot.command('help', (ctx) => 
-    ctx.reply(
-        'Comandos disponíveis', 
-        Markup.keyboard([
-            ["/kiss"]
-        ])
-    )  
-)
+commands.forEach((command) => {
+    bot.command(command.data.name, command.execute)
+});
 
-bot.command('kiss', (ctx) => 
-    ctx.reply("https://tenor.com/view/cat-kissing-mwah-cat-kissing-camera-gif-21041612")
-)
+bot.launch();
 
-bot.command('info', (ctx) => {
-    ctx.reply(
-        `Oi, eu sou ${ctx.botInfo.first_name}`
-    )
-})
-
-bot.launch()
+jobs.forEach((job) => {
+    schedule(job.frequency, job.execute(bot))
+});
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'))
