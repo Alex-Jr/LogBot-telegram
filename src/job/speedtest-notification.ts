@@ -20,21 +20,20 @@ function speedtestNotification(bot: Bot) {
          // Se último é 20% menor que a média
         if(latestDownload <=  averageDownload * 0.8) shouldNotify = true;
         if(latestUploud <=  averageUploud * 0.8) shouldNotify = true;
-        if(latestPing <=  averagePing * 0.8) shouldNotify = true;
-    
+        // Se último for 20% maior que a média
+        if(latestPing >=  averagePing * 1.2) shouldNotify = true;
     
         if(shouldNotify) {
             bot.telegram.sendMessage(
                 process.env.OWNER_CHATID!, 
                 ` Ultimo teste\n` + 
-                `🕐 ${Date.now()}` +
                 `⬇️ ${latestDownload} Mb/s\n` +
                 `⬆️ ${latestUploud} Mb/s\n` +
                 `🔁 ${latestPing} ms`
             )
         }
     }
-}
+}   
 
 export default {
     name: 'speedtest-notification',

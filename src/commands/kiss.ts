@@ -1,4 +1,3 @@
-import { Markup } from "telegraf"
 import type { Context } from "telegraf"
 import type { Command } from "../interfaces/Command"
 
